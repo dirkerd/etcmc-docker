@@ -36,16 +36,16 @@ if ! command_exists docker; then
   install_prereqs
 fi
 
-if [[ ! -d ${SCRIPT_DIR}/data ]]; then
-  mkdir ${SCRIPT_DIR}/data
+if [[ ! -d ${SCRIPT_DIR}/builddata ]]; then
+  mkdir ${SCRIPT_DIR}/builddata
 fi
 
-if [[ ! -f ${SCRIPT_DIR}/data/ETCMC_Linux.zip ]]; then
-  curl -Lik https://github.com/Nowalski/ETCMC_Software/releases/download/Setup%2FWindows/ETCMC_Linux.zip -o ${SCRIPT_DIR}/data/ETCMC_Linux.zip
+if [[ ! -f ${SCRIPT_DIR}/builddata/ETCMC_Linux.zip ]]; then
+  curl -Lik https://github.com/Nowalski/ETCMC_Software/releases/download/Setup%2FWindows/ETCMC_Linux.zip -o ${SCRIPT_DIR}/builddata/ETCMC_Linux.zip
 fi
 
-if [[ ! -d ${SCRIPT_DIR}/data/unzipped ]]; then
-  unzip ${SCRIPT_DIR}/data/ETCMC_Linux.zip -d ${SCRIPT_DIR}/data/unzipped
+if [[ ! -d ${SCRIPT_DIR}/builddata/unzipped ]]; then
+  unzip ${SCRIPT_DIR}/builddata/ETCMC_Linux.zip -d ${SCRIPT_DIR}/builddata/unzipped
 fi
 
 docker build -f Dockerfile.etcmc.simple . -t etcmc-simple
