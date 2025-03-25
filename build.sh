@@ -2,6 +2,39 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+install_prereqs() {
+    echo "Installing prerequisists..."
+    SUDO=''
+    if (( $EUID != 0 )); then
+        SUDO='sudo'
+        echo "Running as non-root user. Using sudo for installation."
+    fi
+    
+    # Check the package manager and install Python 3 and pip
+    if command_exists apt; then
+        $SUDO apt update -y
+        $SUDO apt install -y curl unzip docker.io
+    elif command_exists yum; then
+        $SUDO yum install -y curl unzip docker.io
+    elif command_exists dnf; then
+        $SUDO dnf install -y curl unzip docker.io
+    else
+        echo "Unsupported package manager. Please install Python 3 manually."
+        exit 1
+    fi
+    sudo usermod -aG docker $USER
+
+    echo "Curl, unzip and Docker have been installed."
+}
+
+if [[ ! command_exists docker ]]; then
+  install_prereqs
+fi
+
 if [[ ! -d ${SCRIPT_DIR}/data ]]; then
   mkdir ${SCRIPT_DIR}/data
 fi
