@@ -31,7 +31,8 @@ install_prereqs() {
     echo "Curl, unzip and Docker have been installed."
 }
 
-if [[ ! command_exists docker ]]; then
+# With this syntax, we can not (and should not) use single or double brackets
+if ! command_exists docker; then
   install_prereqs
 fi
 
@@ -48,3 +49,5 @@ if [[ ! -d ${SCRIPT_DIR}/data/unzipped ]]; then
 fi
 
 docker build -f Dockerfile.etcmc.simple . -t etcmc-simple
+
+docker image list
