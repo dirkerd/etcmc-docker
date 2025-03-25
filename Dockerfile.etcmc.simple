@@ -1,0 +1,14 @@
+FROM debian:12
+
+RUN apt update && apt install curl wget unzip python3 python3-pip zip unzip dos2unix gcc python3-dev -y --no-install-recommends && rm -rf /var/lib/apt/lists/*
+COPY ["data/unzipped/requirements.txt", "/requirements.txt"]
+RUN pip3 install -r requirements.txt --break-system-packages
+
+COPY ["etcmc.sh", "/etcmc.sh"]
+
+RUN chmod +x /etcmc.sh
+
+#enode://dc8a152073971ca7b4550111782a77fad661294644e0655dd491c1e3c66eac47a9b3a7b6d644ef88c3b9accba3d852a0533c0e90d54ed2ffdc7d6eadf563a38e@192.168.200.96:30303
+
+ENV PORT=5123
+ENTRYPOINT ["bash", "-c", "/etcmc.sh"]
