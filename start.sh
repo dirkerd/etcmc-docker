@@ -64,7 +64,7 @@ if [[ ! -d ${ETCMC_HOME} ]]; then
 fi
 
 if [[ -f ${SCRIPT_DIR}/config.toml && -f ${ETCMC_HOME}/config.toml ]]; then
-  diff -uNp ${SCRIPT_DIR}/config.toml ${ETCMC_HOME}/config.toml
+  diff -uNp ${SCRIPT_DIR}/config.toml ${ETCMC_HOME}/config.toml 2>&1 > /dev/null
   if [[ "$?" != "0" ]]; then
     timestamp=$(date +%s)
     mv ${ETCMC_HOME}/config.toml ${ETCMC_HOME}/config.toml.${timestamp}
