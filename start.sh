@@ -63,10 +63,13 @@ if [[ ! -d ${ETCMC_HOME} ]]; then
   unzip ${SCRIPT_DIR}/data/ETCMC_Linux.zip -d ${ETCMC_HOME}
 fi
 
-if [[ -f ${ETCMC_HOME}/config.toml ]]; then
-  timestamp=$(date +%s)
-  mv ${ETCMC_HOME}/config.toml ${ETCMC_HOME}/config.toml.${timestamp} 
-  cp $SCRIPT_DIR/config.toml ${ETCMC_HOME}
+if [[ -f ${SCRIPT_DIR}/config.toml && -f ${ETCMC_HOME}/config.toml ]]; then
+  diff -uNp ${SCRIPT_DIR}/config.toml ${ETCMC_HOME}/config.toml
+  if [[ "$?" != "0" ]]; then
+    timestamp=$(date +%s)
+    mv ${ETCMC_HOME}/config.toml ${ETCMC_HOME}/config.toml.${timestamp}
+    cp $SCRIPT_DIR/config.toml ${ETCMC_HOME}
+  fi
 fi
 
 echo '{"login_required": false}' > ${ETCMC_HOME}/login.json
