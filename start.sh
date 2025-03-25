@@ -85,31 +85,4 @@ fi
 
 MSYS_NO_PATHCONV=1 docker run -d --name etcmc-$port -v ${DATA_DIR}:/data:rw -v ${ETCMC_HOME}:/ETCMC:rw -p ${port}:5123 etcmc-simple
 
-sleep 10
-
-curl "http://127.0.0.1:${port}/start_node" \
-  -H 'Accept: */*' \
-  -H 'Accept-Language: en-US,en;q=0.9' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Connection: keep-alive' \
-  -H 'Content-Type: application/json' \
-  -H "Origin: http://127.0.0.1:${port}" \
-  -H 'Pragma: no-cache' \
-  -H "Referer: http://127.0.0.1:${port}/" \
-  -H 'Sec-Fetch-Dest: empty' \
-  -H 'Sec-Fetch-Mode: cors' \
-  -H 'Sec-Fetch-Site: same-origin' \
-  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36' \
-  -H 'sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"' \
-  -H 'sec-ch-ua-mobile: ?0' \
-  -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"port":"30303"}'
-#MSYS_NO_PATHCONV=1 docker exec -it etcmc-$port tail -f /ETCMC/app.log
-
-if [[ "$follow" == "1" ]]; then
-  #trap "cleanup_function" EXIT
-  sleep 5
-  tail -n 100 -f ${ETCMC_HOME}/app.log
-fi
-
 docker container list
